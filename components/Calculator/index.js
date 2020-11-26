@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Container,
   Box,
@@ -13,7 +13,6 @@ import {
   Button,
   Text,
   Stack,
-  StylesProvider,
 } from "@chakra-ui/react";
 
 export default function Calculator() {
@@ -28,6 +27,7 @@ export default function Calculator() {
   });
   const [result, setResult] = useState();
   const [showSliderValue, setShowSliderValue] = useState(false);
+  const resultRef = useRef();
 
   /**
    * Runs on every refresh
@@ -72,6 +72,13 @@ export default function Calculator() {
         (Math.round(res / form.minimum) * form.minimum + Number.EPSILON) * 100
       ) / 100;
     setResult(res);
+    if (resultRef.current) {
+      resultRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      });
+    }
   };
 
   const handleSlider = (value) => {
@@ -92,7 +99,16 @@ export default function Calculator() {
         <form onSubmit={handleSubmit}>
           <Stack spacing={1}>
             <FormControl id="minimum" isRequired>
-              <FormLabel>Unidad mínima</FormLabel>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <FormLabel>Unidad mínima:</FormLabel>
+                <Text fontSize="xl" color="blue.400" fontWeight="bold">
+                  {form.minimum}
+                </Text>
+              </Box>
               <FormHelperText>
                 La mínima cantidad de insulina que se puede administrar.
               </FormHelperText>
@@ -174,9 +190,9 @@ export default function Calculator() {
             >
               Calcular
             </Button>
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <Box ref={resultRef} display="flex" justifyContent="center">
               <Text fontSize="6xl">{result}</Text>
-            </div>
+            </Box>
           </Stack>
         </form>
       </Box>

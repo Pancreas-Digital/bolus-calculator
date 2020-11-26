@@ -1,6 +1,6 @@
-import Head from 'next/head';
-import Calculator from '@components/Calculator';
-import { ChakraProvider } from "@chakra-ui/react"
+import Head from "next/head";
+import Calculator from "@components/Calculator";
+import { ChakraProvider, Box } from "@chakra-ui/react";
 
 export default function Home() {
   return (
@@ -9,8 +9,10 @@ export default function Home() {
         <Head>
           <title>Calculadora V1</title>
         </Head>
-        <Calculator />
+        <Box bg="blue.50" minHeight="100vh">
+          <Calculator />
+        </Box>
       </div>
     </ChakraProvider>
   );
-};
+}
