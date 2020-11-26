@@ -105,6 +105,7 @@ export default function Calculator() {
                 onChange={handleSlider}
                 onChangeStart={() => setShowSliderValue(true)}
                 onChangeEnd={() => setShowSliderValue(false)}
+                fontSize="14px"
               >
                 <SliderTrack>
                   <SliderFilledTrack />
