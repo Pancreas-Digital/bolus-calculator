@@ -13,15 +13,17 @@ import {
   Button,
   Text,
   Stack,
-} from "@chakra-ui/react"
+} from '@chakra-ui/react';
 
 export default function Calculator() {
   const [form, setForm] = useState({
-    minimo: 0,
-    glucemia: '',
+    minimum: 0.5,
+    glycaemia: '',
     ratio: '',
+    //to calculate the correction you can use 1700/average total insulin in a day
     correction: '',
-    amountOfCarbs: '',
+    objective: '',
+    carbohydrates: '',
   });
   const [result, setResult] = useState();
 
@@ -57,20 +59,18 @@ export default function Calculator() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    let res = form.amountOfCarbs / form.ratio;
-    if (form.glucemia > form.correction) {
-      res = res + form.minimo;
-    }
+    //food + correction
+    let res = form.carbohydrates / form.ratio + (form.glycaemia - form.objective) / form.correction;
     console.log(res);
-    res = Math.round(res * 2) / 2;
+    res = Math.round((res * 1) / form.minimum) / (1 / form.minimum);
     setResult(res);
   };
 
-  const handleSlider = value => {
+  const handleSlider = (value) => {
     setForm((prevState) => {
       const newForm = {
         ...prevState,
-        minimo: Number(value),
+        minimum: Number(value),
       };
       localStorage.setItem('form', JSON.stringify(newForm));
 
@@ -82,36 +82,41 @@ export default function Calculator() {
     <Container maxW="md">
       <Box padding="4" bg="blue.50">
         <form onSubmit={handleSubmit}>
-          <Stack spacing={5}>
-            <FormControl id="minimo">
-              <FormLabel>Mínimo: {form.minimo}</FormLabel>
-              <FormHelperText>We'll never share your email.</FormHelperText>
-              <Slider value={form.minimo} defaultValue={0} step={0.25} min={0} max={1} onChange={handleSlider}>
+          <Stack spacing={1}>
+            <FormControl id="minimum" isRequired>
+              <FormLabel>Unidad mínima</FormLabel>
+              <FormHelperText>La mínima cantidad de insulina que se puede administrar.</FormHelperText>
+              <Slider value={form.minimum} defaultValue={0.5} step={0.05} min={0.05} max={1} onChange={handleSlider}>
                 <SliderTrack>
                   <SliderFilledTrack />
                 </SliderTrack>
-                <SliderThumb />
+                <SliderThumb>{form.minimum}</SliderThumb>
               </Slider>
             </FormControl>
-            <FormControl id="glucemia">
+            <FormControl id="glycaemia" isRequired>
               <FormLabel>Glucemia</FormLabel>
-              <FormHelperText>We'll never share your email.</FormHelperText>
-              <Input onChange={handleChange} type="number" name="glucemia" />
+              <FormHelperText>El valor de glucosa en sangre actual.</FormHelperText>
+              <Input onChange={handleChange} type="number" name="glycaemia" />
             </FormControl>
-            <FormControl id="ratio">
-              <FormLabel>Ratio</FormLabel>
-              <FormHelperText>We'll never share your email.</FormHelperText>
+            <FormControl id="ratio" isRequired>
+              <FormLabel>Ratio de carbohidratos / insulina</FormLabel>
+              <FormHelperText>La cantidad de carbohidratos para una unidad de insulina.</FormHelperText>
               <Input onChange={handleChange} type="number" name="ratio" />
             </FormControl>
-            <FormControl id="correction">
-              <FormLabel>Corrección</FormLabel>
-              <FormHelperText>We'll never share your email.</FormHelperText>
+            <FormControl id="correction" isRequired>
+              <FormLabel>Factor de corrección</FormLabel>
+              <FormHelperText>La cantidad de glucemia que reduce una unidad de insulina.</FormHelperText>
               <Input onChange={handleChange} type="number" name="correction" />
             </FormControl>
-            <FormControl id="amountOfCarbs">
-              <FormLabel>Cantidad de carbohidratos</FormLabel>
-              <FormHelperText>We'll never share your email.</FormHelperText>
-              <Input onChange={handleChange} type="number" name="amountOfCarbs" />
+            <FormControl id="objective" isRequired>
+              <FormLabel>Objetivo de glucemia</FormLabel>
+              <FormHelperText>El valor ideal de glucemia.</FormHelperText>
+              <Input onChange={handleChange} type="number" name="objective" />
+            </FormControl>
+            <FormControl id="carbohydrates" isRequired>
+              <FormLabel>Carbohidratos</FormLabel>
+              <FormHelperText>La cantidad de carbohidratos que va a consumir.</FormHelperText>
+              <Input onChange={handleChange} type="number" name="carbohydrates" />
             </FormControl>
             <Button
               size="md"
@@ -120,12 +125,12 @@ export default function Calculator() {
               border="2px"
               colorScheme="blue"
               type="submit"
-              style={{ margin: "24px auto" }}
+              style={{ margin: '24px auto' }}
             >
               Calcular
             </Button>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Text fontSize="6xl">{result}</Text> 
+              <Text fontSize="6xl">{result}</Text>
             </div>
           </Stack>
         </form>
