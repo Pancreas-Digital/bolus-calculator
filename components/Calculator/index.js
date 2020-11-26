@@ -105,7 +105,6 @@ export default function Calculator() {
                 onChange={handleSlider}
                 onChangeStart={() => setShowSliderValue(true)}
                 onChangeEnd={() => setShowSliderValue(false)}
-                fontSize="14px"
               >
                 <SliderTrack>
                   <SliderFilledTrack />
@@ -119,6 +118,7 @@ export default function Calculator() {
                       color="white"
                       borderRadius="4px"
                       padding="4px"
+                      fontSize="14px"
                     >
                       {form.minimum}
                     </Box>
