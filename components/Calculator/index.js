@@ -62,7 +62,8 @@ export default function Calculator() {
     //food + correction
     let res = form.carbohydrates / form.ratio + (form.glycaemia - form.objective) / form.correction;
     console.log(res);
-    res = Math.round(res / form.minimum) * form.minimum;
+    //Round to minimum and then round for a fix for some strange cases
+    res = Math.round((Math.round(res / form.minimum) * form.minimum + Number.EPSILON) * 100) / 100;
     setResult(res);
   };
 
