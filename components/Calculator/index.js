@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import {
   Container,
   Box,
@@ -13,32 +13,34 @@ import {
   Button,
   Text,
   Stack,
-} from '@chakra-ui/react';
+  StylesProvider,
+} from "@chakra-ui/react";
 
 export default function Calculator() {
   const [form, setForm] = useState({
     minimum: 0.5,
-    glycaemia: '',
-    ratio: '',
+    glycaemia: "",
+    ratio: "",
     //to calculate the correction you can use 1700/average total insulin in a day
-    correction: '',
-    objective: '',
-    carbohydrates: '',
+    correction: "",
+    objective: "",
+    carbohydrates: "",
   });
   const [result, setResult] = useState();
+  const [showSliderValue, setShowSliderValue] = useState(false);
 
   /**
    * Runs on every refresh
    */
   useEffect(() => {
-    console.log('form', form);
+    console.log("form", form);
   }, [form]);
 
   /**
    * Runs on init only
    */
   useEffect(() => {
-    const valueInStorage = localStorage.getItem('form');
+    const valueInStorage = localStorage.getItem("form");
     if (valueInStorage) {
       setForm(JSON.parse(valueInStorage));
     }
@@ -51,7 +53,7 @@ export default function Calculator() {
         ...prevState,
         [name]: Number(value),
       };
-      localStorage.setItem('form', JSON.stringify(newForm));
+      localStorage.setItem("form", JSON.stringify(newForm));
 
       return newForm;
     });
@@ -60,10 +62,15 @@ export default function Calculator() {
   const handleSubmit = (event) => {
     event.preventDefault();
     //food + correction
-    let res = form.carbohydrates / form.ratio + (form.glycaemia - form.objective) / form.correction;
+    let res =
+      form.carbohydrates / form.ratio +
+      (form.glycaemia - form.objective) / form.correction;
     console.log(res);
     //Round to minimum and then round for a fix for some strange cases
-    res = Math.round((Math.round(res / form.minimum) * form.minimum + Number.EPSILON) * 100) / 100;
+    res =
+      Math.round(
+        (Math.round(res / form.minimum) * form.minimum + Number.EPSILON) * 100
+      ) / 100;
     setResult(res);
   };
 
@@ -73,7 +80,7 @@ export default function Calculator() {
         ...prevState,
         minimum: Number(value),
       };
-      localStorage.setItem('form', JSON.stringify(newForm));
+      localStorage.setItem("form", JSON.stringify(newForm));
 
       return newForm;
     });
@@ -86,27 +93,57 @@ export default function Calculator() {
           <Stack spacing={1}>
             <FormControl id="minimum" isRequired>
               <FormLabel>Unidad mínima</FormLabel>
-              <FormHelperText>La mínima cantidad de insulina que se puede administrar.</FormHelperText>
-              <Slider value={form.minimum} defaultValue={0.5} step={0.05} min={0.05} max={1} onChange={handleSlider}>
+              <FormHelperText>
+                La mínima cantidad de insulina que se puede administrar.
+              </FormHelperText>
+              <Slider
+                value={form.minimum}
+                defaultValue={0.5}
+                step={0.05}
+                min={0.05}
+                max={1}
+                onChange={handleSlider}
+                onChangeStart={() => setShowSliderValue(true)}
+                onChangeEnd={() => setShowSliderValue(false)}
+              >
                 <SliderTrack>
                   <SliderFilledTrack />
                 </SliderTrack>
-                <SliderThumb>{form.minimum}</SliderThumb>
+                <SliderThumb>
+                  {showSliderValue && (
+                    <Box
+                      position="absolute"
+                      bottom="-40px"
+                      bg="blue.200"
+                      color="white"
+                      borderRadius="4px"
+                      padding="4px"
+                    >
+                      {form.minimum}
+                    </Box>
+                  )}
+                </SliderThumb>
               </Slider>
             </FormControl>
             <FormControl id="glycaemia" isRequired>
               <FormLabel>Glucemia</FormLabel>
-              <FormHelperText>El valor de glucosa en sangre actual.</FormHelperText>
+              <FormHelperText>
+                El valor de glucosa en sangre actual.
+              </FormHelperText>
               <Input onChange={handleChange} type="number" name="glycaemia" />
             </FormControl>
             <FormControl id="ratio" isRequired>
               <FormLabel>Ratio de carbohidratos / insulina</FormLabel>
-              <FormHelperText>La cantidad de carbohidratos para una unidad de insulina.</FormHelperText>
+              <FormHelperText>
+                La cantidad de carbohidratos para una unidad de insulina.
+              </FormHelperText>
               <Input onChange={handleChange} type="number" name="ratio" />
             </FormControl>
             <FormControl id="correction" isRequired>
               <FormLabel>Factor de corrección</FormLabel>
-              <FormHelperText>La cantidad de glucemia que reduce una unidad de insulina.</FormHelperText>
+              <FormHelperText>
+                La cantidad de glucemia que reduce una unidad de insulina.
+              </FormHelperText>
               <Input onChange={handleChange} type="number" name="correction" />
             </FormControl>
             <FormControl id="objective" isRequired>
@@ -116,8 +153,14 @@ export default function Calculator() {
             </FormControl>
             <FormControl id="carbohydrates" isRequired>
               <FormLabel>Carbohidratos</FormLabel>
-              <FormHelperText>La cantidad de carbohidratos que va a consumir.</FormHelperText>
-              <Input onChange={handleChange} type="number" name="carbohydrates" />
+              <FormHelperText>
+                La cantidad de carbohidratos que va a consumir.
+              </FormHelperText>
+              <Input
+                onChange={handleChange}
+                type="number"
+                name="carbohydrates"
+              />
             </FormControl>
             <Button
               size="md"
@@ -126,11 +169,11 @@ export default function Calculator() {
               border="2px"
               colorScheme="blue"
               type="submit"
-              style={{ margin: '24px auto' }}
+              style={{ margin: "24px auto" }}
             >
               Calcular
             </Button>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
               <Text fontSize="6xl">{result}</Text>
             </div>
           </Stack>
