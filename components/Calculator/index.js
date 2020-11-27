@@ -38,7 +38,7 @@ export default function Calculator() {
       setForm(JSON.parse(valueInStorage));
     }
   }, []);
-  console.log("resultRef.current", resultRef.current);
+
   const handleChange = (event) => {
     const { value, name } = event.target;
     setForm((prevState) => {

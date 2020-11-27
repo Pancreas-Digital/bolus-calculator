@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Calculator from "@components/Calculator";
+import { Calculator } from "@components";
 import { ChakraProvider, Box } from "@chakra-ui/react";
 
 export default function Home() {
