@@ -25,16 +25,9 @@ export default function Calculator() {
     objective: "",
     carbohydrates: "",
   });
-  const [result, setResult] = useState();
+  const [result, setResult] = useState(null);
   const [showSliderValue, setShowSliderValue] = useState(false);
   const resultRef = useRef();
-
-  /**
-   * Runs on every refresh
-   */
-  useEffect(() => {
-    console.log("form", form);
-  }, [form]);
 
   /**
    * Runs on init only
@@ -45,7 +38,7 @@ export default function Calculator() {
       setForm(JSON.parse(valueInStorage));
     }
   }, []);
-
+  console.log("resultRef.current", resultRef.current);
   const handleChange = (event) => {
     const { value, name } = event.target;
     setForm((prevState) => {
@@ -65,7 +58,6 @@ export default function Calculator() {
     let res =
       form.carbohydrates / form.ratio +
       (form.glycaemia - form.objective) / form.correction;
-    console.log(res);
     //Round to minimum and then round for a fix for some strange cases
     res =
       Math.round(
@@ -73,11 +65,13 @@ export default function Calculator() {
       ) / 100;
     setResult(res);
     if (resultRef.current) {
-      resultRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-        inline: "nearest",
-      });
+      setTimeout(() => {
+        resultRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+          inline: "nearest",
+        });
+      }, 100);
     }
   };
 
@@ -97,7 +91,7 @@ export default function Calculator() {
     <Container maxW="md">
       <Box padding="4" bg="blue.50">
         <form onSubmit={handleSubmit}>
-          <Stack spacing={1}>
+          <Stack spacing={4}>
             <FormControl id="minimum" isRequired>
               <Box
                 display="flex"
@@ -147,26 +141,46 @@ export default function Calculator() {
               <FormHelperText>
                 El valor de glucosa en sangre actual.
               </FormHelperText>
-              <Input onChange={handleChange} type="number" name="glycaemia" />
+              <Input
+                onChange={handleChange}
+                type="number"
+                value={form.glycaemia}
+                name="glycaemia"
+              />
             </FormControl>
             <FormControl id="ratio" isRequired>
               <FormLabel>Ratio de carbohidratos / insulina</FormLabel>
               <FormHelperText>
                 La cantidad de carbohidratos para una unidad de insulina.
               </FormHelperText>
-              <Input onChange={handleChange} type="number" name="ratio" />
+              <Input
+                onChange={handleChange}
+                type="number"
+                value={form.ratio}
+                name="ratio"
+              />
             </FormControl>
             <FormControl id="correction" isRequired>
               <FormLabel>Factor de corrección</FormLabel>
               <FormHelperText>
                 La cantidad de glucemia que reduce una unidad de insulina.
               </FormHelperText>
-              <Input onChange={handleChange} type="number" name="correction" />
+              <Input
+                onChange={handleChange}
+                type="number"
+                value={form.correction}
+                name="correction"
+              />
             </FormControl>
             <FormControl id="objective" isRequired>
               <FormLabel>Objetivo de glucemia</FormLabel>
               <FormHelperText>El valor ideal de glucemia.</FormHelperText>
-              <Input onChange={handleChange} type="number" name="objective" />
+              <Input
+                onChange={handleChange}
+                type="number"
+                value={form.objective}
+                name="objective"
+              />
             </FormControl>
             <FormControl id="carbohydrates" isRequired>
               <FormLabel>Carbohidratos</FormLabel>
@@ -177,6 +191,7 @@ export default function Calculator() {
                 onChange={handleChange}
                 type="number"
                 name="carbohydrates"
+                value={form.carbohydrates}
               />
             </FormControl>
             <Button
@@ -190,8 +205,66 @@ export default function Calculator() {
             >
               Calcular
             </Button>
-            <Box ref={resultRef} display="flex" justifyContent="center">
-              <Text fontSize="6xl">{result}</Text>
+            <Box
+              ref={resultRef}
+              height={result ? "100vh" : "1px"}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              {result && (
+                <Box
+                  height="400px"
+                  width="600px"
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="center"
+                  bg="rgba(255, 255, 255, 0.9)"
+                  // bg="blue.100"
+                  borderRadius="16px"
+                >
+                  <Box
+                    flex="1"
+                    display="flex"
+                    flexDirection="column"
+                    marginTop="24px"
+                    alignItems="center"
+                  >
+                    <Text
+                      fontSize="3xl"
+                      textAlign="center"
+                      fontWeight="bold"
+                      color="blue.600"
+                    >
+                      Cantidad de insulina necesaria:
+                    </Text>
+                    <Text
+                      flex="1"
+                      fontSize="8xl"
+                      display="flex"
+                      alignItems="center"
+                      fontWeight="bold"
+                      color="blue.600"
+                    >
+                      {result}
+                    </Text>
+                  </Box>
+                  <Button
+                    size="md"
+                    height="48px"
+                    width="200px"
+                    border="2px"
+                    colorScheme="blue"
+                    style={{ margin: "24px auto" }}
+                    onClick={() => {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                      setResult(null);
+                    }}
+                  >
+                    Volver a calcular
+                  </Button>
+                </Box>
+              )}
             </Box>
           </Stack>
         </form>
