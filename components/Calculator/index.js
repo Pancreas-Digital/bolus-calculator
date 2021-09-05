@@ -131,27 +131,57 @@ export default function Calculator() {
             <FormControl id="glycaemia" isRequired size="sm">
               <FormLabel>Glucemia</FormLabel>
               <FormHelperText>El valor de glucosa en sangre actual.</FormHelperText>
-              <Input onChange={handleChange} type="number" value={form.glycaemia} name="glycaemia" />
+              <Input
+                onChange={handleChange}
+                type="number"
+                min="0"
+                value={form.glycaemia === 0 ? '' : form.glycaemia}
+                name="glycaemia"
+              />
             </FormControl>
             <FormControl id="ratio" isRequired size="sm">
               <FormLabel>Ratio de carbohidratos / insulina</FormLabel>
               <FormHelperText>La cantidad de carbohidratos para una unidad de insulina.</FormHelperText>
-              <Input onChange={handleChange} type="number" value={form.ratio} name="ratio" />
+              <Input
+                onChange={handleChange}
+                type="number"
+                min="0"
+                value={form.ratio === 0 ? '' : form.ratio}
+                name="ratio"
+              />
             </FormControl>
             <FormControl id="correction" isRequired size="sm">
               <FormLabel>Factor de corrección</FormLabel>
               <FormHelperText>La cantidad de glucemia que reduce una unidad de insulina.</FormHelperText>
-              <Input onChange={handleChange} type="number" value={form.correction} name="correction" />
+              <Input
+                onChange={handleChange}
+                type="number"
+                min="0"
+                value={form.correction === 0 ? '' : form.correction}
+                name="correction"
+              />
             </FormControl>
             <FormControl id="objective" isRequired size="sm">
               <FormLabel>Objetivo de glucemia</FormLabel>
               <FormHelperText>El valor ideal de glucemia.</FormHelperText>
-              <Input onChange={handleChange} type="number" value={form.objective} name="objective" />
+              <Input
+                onChange={handleChange}
+                type="number"
+                min="0"
+                value={form.objective === 0 ? '' : form.objective}
+                name="objective"
+              />
             </FormControl>
             <FormControl id="carbohydrates" isRequired size="sm">
               <FormLabel>Carbohidratos</FormLabel>
               <FormHelperText>La cantidad de carbohidratos que va a consumir.</FormHelperText>
-              <Input onChange={handleChange} type="number" name="carbohydrates" value={form.carbohydrates} />
+              <Input
+                onChange={handleChange}
+                type="number"
+                min="0"
+                value={form.carbohydrates === 0 ? '' : form.carbohydrates}
+                name="carbohydrates"
+              />
             </FormControl>
             <Button
               size="md"
