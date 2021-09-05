@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Calculator } from '@components';
+import { Calculator, Navbar } from '@components';
 import { ChakraProvider, Box } from '@chakra-ui/react';
 
 export default function Home() {
@@ -19,9 +19,10 @@ export default function Home() {
         `,
             }}
           />
-          <title>Calculadora de bolos de insulina - Diabetes</title>
+          <title>Pancreas Digital - Calculadora de Bolo</title>
         </Head>
-        <Box bg="blue.50" minHeight="100vh">
+        <Box bg="blue.300" minHeight="100vh">
+          <Navbar />
           <Calculator />
         </Box>
       </div>
