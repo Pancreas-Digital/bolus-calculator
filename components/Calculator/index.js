@@ -54,11 +54,14 @@ export default function Calculator() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     //food + correction
     let res = form.carbohydrates / form.ratio + (form.glycaemia - form.objective) / form.correction;
     //Round to minimum and then round for a fix for some strange cases
     res = Math.round((Math.round(res / form.minimum) * form.minimum + Number.EPSILON) * 100) / 100;
+
     setResult(res);
+
     if (resultRef.current) {
       setTimeout(() => {
         resultRef.current.scrollIntoView({
@@ -84,10 +87,10 @@ export default function Calculator() {
 
   return (
     <Container maxW="md">
-      <Box padding="4" bg="blue.50" border="4px" borderColor="blue.600">
+      <Box padding="2" bg="blue.50" border="4px" borderColor="blue.600">
         <form onSubmit={handleSubmit}>
-          <Stack spacing={4}>
-            <FormControl id="minimum" isRequired>
+          <Stack spacing={2}>
+            <FormControl id="minimum" isRequired size="sm">
               <Box display="flex" justifyContent="space-between" alignItems="center">
                 <FormLabel>Unidad mínima</FormLabel>
                 <Text fontSize="xl" color="blue.600" fontWeight="bold">
@@ -125,27 +128,27 @@ export default function Calculator() {
                 </SliderThumb>
               </Slider>
             </FormControl>
-            <FormControl id="glycaemia" isRequired>
+            <FormControl id="glycaemia" isRequired size="sm">
               <FormLabel>Glucemia</FormLabel>
               <FormHelperText>El valor de glucosa en sangre actual.</FormHelperText>
               <Input onChange={handleChange} type="number" value={form.glycaemia} name="glycaemia" />
             </FormControl>
-            <FormControl id="ratio" isRequired>
+            <FormControl id="ratio" isRequired size="sm">
               <FormLabel>Ratio de carbohidratos / insulina</FormLabel>
               <FormHelperText>La cantidad de carbohidratos para una unidad de insulina.</FormHelperText>
               <Input onChange={handleChange} type="number" value={form.ratio} name="ratio" />
             </FormControl>
-            <FormControl id="correction" isRequired>
+            <FormControl id="correction" isRequired size="sm">
               <FormLabel>Factor de corrección</FormLabel>
               <FormHelperText>La cantidad de glucemia que reduce una unidad de insulina.</FormHelperText>
               <Input onChange={handleChange} type="number" value={form.correction} name="correction" />
             </FormControl>
-            <FormControl id="objective" isRequired>
+            <FormControl id="objective" isRequired size="sm">
               <FormLabel>Objetivo de glucemia</FormLabel>
               <FormHelperText>El valor ideal de glucemia.</FormHelperText>
               <Input onChange={handleChange} type="number" value={form.objective} name="objective" />
             </FormControl>
-            <FormControl id="carbohydrates" isRequired>
+            <FormControl id="carbohydrates" isRequired size="sm">
               <FormLabel>Carbohidratos</FormLabel>
               <FormHelperText>La cantidad de carbohidratos que va a consumir.</FormHelperText>
               <Input onChange={handleChange} type="number" name="carbohydrates" value={form.carbohydrates} />
@@ -163,12 +166,12 @@ export default function Calculator() {
             </Button>
             <Box
               ref={resultRef}
-              height={result ? '100vh' : '1px'}
+              height={result != null ? '100vh' : '1px'}
               display="flex"
               justifyContent="center"
               alignItems="center"
             >
-              {result && (
+              {result != null && (
                 <Box
                   height="400px"
                   width="600px"
@@ -181,11 +184,13 @@ export default function Calculator() {
                   <Box flex="1" display="flex" flexDirection="column" marginTop="24px" alignItems="center">
                     <Text fontSize="3xl" textAlign="center" fontWeight="bold" color="blue.600">
                       {result > 0 && result < Infinity
-                        ? 'Cantidad de insulina necesaria'
+                        ? 'Unidades de insulina recomendadas'
+                        : result === 0
+                        ? 'No se recomienda colocar insulina'
                         : 'Verifique los datos ingresados'}
                     </Text>
-                    <Text flex="1" fontSize="8xl" display="flex" alignItems="center" fontWeight="bold" color="blue.600">
-                      {result > 0 && result < Infinity ? result : 'Error'}
+                    <Text flex="1" fontSize="5xl" display="flex" alignItems="center" fontWeight="bold" color="blue.600">
+                      {result > 0 && result < Infinity ? result : result === 0 ? '-' : 'Error'}
                     </Text>
                   </Box>
                   <Button

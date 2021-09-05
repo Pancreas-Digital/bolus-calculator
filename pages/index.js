@@ -19,7 +19,7 @@ export default function Home() {
         `,
             }}
           />
-          <title>Calculadora de bolos de insulina - Diabetes</title>
+          <title>Pancreas Digital - Calculadora de Bolo</title>
         </Head>
         <Box bg="blue.300" minHeight="100vh">
           <Navbar />
