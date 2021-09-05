@@ -86,163 +86,153 @@ export default function Calculator() {
   };
 
   return (
-    <Container maxW="md">
-      <Box padding="2" bg="blue.50" border="4px" borderColor="blue.600">
-        <form onSubmit={handleSubmit}>
-          <Stack spacing={2}>
-            <FormControl id="minimum" isRequired size="sm">
-              <Box display="flex" justifyContent="space-between" alignItems="center">
-                <FormLabel>Unidad mínima</FormLabel>
-                <Text fontSize="xl" color="blue.600" fontWeight="bold">
-                  {form.minimum}
-                </Text>
-              </Box>
-              <FormHelperText>La mínima cantidad de insulina que se puede administrar.</FormHelperText>
-              <Slider
-                value={form.minimum}
-                defaultValue={0.5}
-                step={0.05}
-                min={0.05}
-                max={1}
-                onChange={handleSlider}
-                onChangeStart={() => setShowSliderValue(true)}
-                onChangeEnd={() => setShowSliderValue(false)}
-              >
-                <SliderTrack>
-                  <SliderFilledTrack />
-                </SliderTrack>
-                <SliderThumb>
-                  {showSliderValue && (
-                    <Box
-                      position="absolute"
-                      bottom="-40px"
-                      bg="blue.300"
-                      color="white"
-                      borderRadius="4px"
-                      padding="4px"
-                      fontSize="14px"
-                    >
-                      {form.minimum}
-                    </Box>
-                  )}
-                </SliderThumb>
-              </Slider>
-            </FormControl>
-            <FormControl id="glycaemia" isRequired size="sm">
-              <FormLabel>Glucemia</FormLabel>
-              <FormHelperText>El valor de glucosa en sangre actual.</FormHelperText>
-              <Input
-                onChange={handleChange}
-                type="number"
-                min="0"
-                value={form.glycaemia === 0 ? '' : form.glycaemia}
-                name="glycaemia"
-              />
-            </FormControl>
-            <FormControl id="ratio" isRequired size="sm">
-              <FormLabel>Ratio de carbohidratos / insulina</FormLabel>
-              <FormHelperText>La cantidad de carbohidratos para una unidad de insulina.</FormHelperText>
-              <Input
-                onChange={handleChange}
-                type="number"
-                min="0"
-                value={form.ratio === 0 ? '' : form.ratio}
-                name="ratio"
-              />
-            </FormControl>
-            <FormControl id="correction" isRequired size="sm">
-              <FormLabel>Factor de corrección</FormLabel>
-              <FormHelperText>La cantidad de glucemia que reduce una unidad de insulina.</FormHelperText>
-              <Input
-                onChange={handleChange}
-                type="number"
-                min="0"
-                value={form.correction === 0 ? '' : form.correction}
-                name="correction"
-              />
-            </FormControl>
-            <FormControl id="objective" isRequired size="sm">
-              <FormLabel>Objetivo de glucemia</FormLabel>
-              <FormHelperText>El valor ideal de glucemia.</FormHelperText>
-              <Input
-                onChange={handleChange}
-                type="number"
-                min="0"
-                value={form.objective === 0 ? '' : form.objective}
-                name="objective"
-              />
-            </FormControl>
-            <FormControl id="carbohydrates" isRequired size="sm">
-              <FormLabel>Carbohidratos</FormLabel>
-              <FormHelperText>La cantidad de carbohidratos que va a consumir.</FormHelperText>
-              <Input
-                onChange={handleChange}
-                type="number"
-                min="0"
-                value={form.carbohydrates === 0 ? '' : form.carbohydrates}
-                name="carbohydrates"
-              />
-            </FormControl>
-            <Button
-              size="md"
-              height="48px"
-              width="200px"
-              border="2px"
-              colorScheme="blue"
-              type="submit"
-              style={{ margin: '24px auto' }}
-            >
-              Calcular
-            </Button>
-            <Box
-              ref={resultRef}
-              height={result != null ? '100vh' : '1px'}
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              {result != null && (
-                <Box
-                  height="400px"
-                  width="600px"
-                  display="flex"
-                  flexDirection="column"
-                  alignItems="center"
-                  bg="rgba(255, 255, 255, 0.9)"
-                  borderRadius="16px"
-                >
-                  <Box flex="1" display="flex" flexDirection="column" marginTop="24px" alignItems="center">
-                    <Text fontSize="3xl" textAlign="center" fontWeight="bold" color="blue.600">
-                      {result > 0 && result < Infinity
-                        ? 'Unidades de insulina recomendadas'
-                        : result === 0
-                        ? 'No se recomienda colocar insulina'
-                        : 'Verifique los datos ingresados'}
-                    </Text>
-                    <Text flex="1" fontSize="5xl" display="flex" alignItems="center" fontWeight="bold" color="blue.600">
-                      {result > 0 && result < Infinity ? result : result === 0 ? '-' : 'Error'}
-                    </Text>
-                  </Box>
-                  <Button
-                    size="md"
-                    height="48px"
-                    width="200px"
-                    border="2px"
-                    colorScheme="blue"
-                    style={{ margin: '24px auto' }}
-                    onClick={() => {
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                      setResult(null);
-                    }}
-                  >
-                    Volver a calcular
-                  </Button>
-                </Box>
-              )}
+    <Container maxW="md" padding="4" bg="blue.50">
+      <form onSubmit={handleSubmit}>
+        <Stack spacing={2}>
+          <FormControl id="minimum" isRequired size="sm">
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <FormLabel>Unidad mínima</FormLabel>
+              <Text fontSize="xl" color="blue.600" fontWeight="bold">
+                {form.minimum}
+              </Text>
             </Box>
-          </Stack>
-        </form>
-      </Box>
+            <FormHelperText>La mínima cantidad de insulina que se puede administrar.</FormHelperText>
+            <Slider
+              value={form.minimum}
+              defaultValue={0.5}
+              step={0.05}
+              min={0.05}
+              max={1}
+              onChange={handleSlider}
+              onChangeStart={() => setShowSliderValue(true)}
+              onChangeEnd={() => setShowSliderValue(false)}
+            >
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb>
+                {showSliderValue && (
+                  <Box
+                    position="absolute"
+                    bottom="-40px"
+                    bg="blue.300"
+                    color="white"
+                    borderRadius="4px"
+                    padding="4px"
+                    fontSize="14px"
+                  >
+                    {form.minimum}
+                  </Box>
+                )}
+              </SliderThumb>
+            </Slider>
+          </FormControl>
+          <FormControl id="glycaemia" isRequired size="sm">
+            <FormLabel>Glucemia</FormLabel>
+            <FormHelperText>El valor de glucosa en sangre actual.</FormHelperText>
+            <Input
+              onChange={handleChange}
+              type="number"
+              min="0"
+              value={form.glycaemia === 0 ? '' : form.glycaemia}
+              name="glycaemia"
+            />
+          </FormControl>
+          <FormControl id="ratio" isRequired size="sm">
+            <FormLabel>Ratio de carbohidratos / insulina</FormLabel>
+            <FormHelperText>La cantidad de carbohidratos para una unidad de insulina.</FormHelperText>
+            <Input
+              onChange={handleChange}
+              type="number"
+              min="0"
+              value={form.ratio === 0 ? '' : form.ratio}
+              name="ratio"
+            />
+          </FormControl>
+          <FormControl id="correction" isRequired size="sm">
+            <FormLabel>Factor de corrección</FormLabel>
+            <FormHelperText>La cantidad de glucemia que reduce una unidad de insulina.</FormHelperText>
+            <Input
+              onChange={handleChange}
+              type="number"
+              min="0"
+              value={form.correction === 0 ? '' : form.correction}
+              name="correction"
+            />
+          </FormControl>
+          <FormControl id="objective" isRequired size="sm">
+            <FormLabel>Objetivo de glucemia</FormLabel>
+            <FormHelperText>El valor ideal de glucemia.</FormHelperText>
+            <Input
+              onChange={handleChange}
+              type="number"
+              min="0"
+              value={form.objective === 0 ? '' : form.objective}
+              name="objective"
+            />
+          </FormControl>
+          <FormControl id="carbohydrates" isRequired size="sm">
+            <FormLabel>Carbohidratos</FormLabel>
+            <FormHelperText>La cantidad de carbohidratos que va a consumir.</FormHelperText>
+            <Input
+              onChange={handleChange}
+              type="number"
+              min="0"
+              value={form.carbohydrates === 0 ? '' : form.carbohydrates}
+              name="carbohydrates"
+            />
+          </FormControl>
+          <Button
+            size="md"
+            height="48px"
+            width="200px"
+            border="2px"
+            colorScheme="blue"
+            type="submit"
+            style={{ margin: '24px auto' }}
+          >
+            Calcular
+          </Button>
+          <Box
+            ref={resultRef}
+            height={result === null ? '1px' : '100vh'}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            {result != null && (
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <Box flex="1" display="flex" flexDirection="column" marginTop="24px" alignItems="center">
+                  <Text fontSize="3xl" textAlign="center" fontWeight="bold" color="blue.600">
+                    {result > 0 && result < Infinity
+                      ? 'Unidades de insulina recomendadas'
+                      : result === 0
+                      ? 'No se recomienda colocar insulina'
+                      : 'Verifique los datos ingresados'}
+                  </Text>
+                  <Text flex="1" fontSize="5xl" display="flex" alignItems="center" fontWeight="bold" color="red.600">
+                    {result > 0 && result < Infinity ? result : result === 0 ? '-' : 'Error'}
+                  </Text>
+                </Box>
+                <Button
+                  size="md"
+                  height="48px"
+                  width="200px"
+                  border="2px"
+                  colorScheme="blue"
+                  style={{ margin: '24px auto' }}
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    setResult(null);
+                  }}
+                >
+                  Volver a calcular
+                </Button>
+              </Box>
+            )}
+          </Box>
+        </Stack>
+      </form>
     </Container>
   );
 }
