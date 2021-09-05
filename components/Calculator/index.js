@@ -89,8 +89,8 @@ export default function Calculator() {
           <Stack spacing={4}>
             <FormControl id="minimum" isRequired>
               <Box display="flex" justifyContent="space-between" alignItems="center">
-                <FormLabel>Unidad mínima:</FormLabel>
-                <Text fontSize="xl" color="blue.300" fontWeight="bold">
+                <FormLabel>Unidad mínima</FormLabel>
+                <Text fontSize="xl" color="blue.600" fontWeight="bold">
                   {form.minimum}
                 </Text>
               </Box>
@@ -180,10 +180,12 @@ export default function Calculator() {
                 >
                   <Box flex="1" display="flex" flexDirection="column" marginTop="24px" alignItems="center">
                     <Text fontSize="3xl" textAlign="center" fontWeight="bold" color="blue.600">
-                      Cantidad de insulina necesaria:
+                      {result > 0 && result < Infinity
+                        ? 'Cantidad de insulina necesaria'
+                        : 'Verifique los datos ingresados'}
                     </Text>
                     <Text flex="1" fontSize="8xl" display="flex" alignItems="center" fontWeight="bold" color="blue.600">
-                      {result}
+                      {result > 0 && result < Infinity ? result : 'Error'}
                     </Text>
                   </Box>
                   <Button
