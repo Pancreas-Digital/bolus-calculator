@@ -106,6 +106,7 @@ export default function Calculator() {
               onChange={handleSlider}
               onChangeStart={() => setShowSliderValue(true)}
               onChangeEnd={() => setShowSliderValue(false)}
+              id="calculator-slider-1"
             >
               <SliderTrack>
                 <SliderFilledTrack />
