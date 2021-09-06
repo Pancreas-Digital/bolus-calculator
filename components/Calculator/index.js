@@ -86,7 +86,7 @@ export default function Calculator() {
   };
 
   return (
-    <Container maxW="md" padding="4" bg="blue.50">
+    <Container maxW="container.md" padding="4" bg="blue.50">
       <form onSubmit={handleSubmit}>
         <Stack spacing={2}>
           <FormControl id="minimum" isRequired size="sm">
