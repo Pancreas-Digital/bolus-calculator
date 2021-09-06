@@ -27,7 +27,7 @@ export default function Home() {
         <meta property="og:site_name" content={process.env.siteName} />
         <meta name="twitter:card" content={process.env.twitterCard} />
         <meta name="twitter:image:alt" content={process.env.twitterImageAlt} />
-        <meta name="twitter:site" content={process.env.twitterSite}></meta>
+        <meta name="twitter:site" content={process.env.twitterSite} />
       </Head>
       <Box bg="blue.300" minHeight="100vh">
         <Navbar />
