@@ -211,7 +211,7 @@ export default function Calculator() {
                     ? 'No se recomienda colocar insulina'
                     : 'Verifique los datos ingresados'}
                 </Text>
-                <Text fontSize="5xl" textAlign="center" fontWeight="bold" color="red.600" marginBottom="60px">
+                <Text fontSize="5xl" textAlign="center" fontWeight="bold" color="red.700" marginBottom="60px">
                   {result > 0 && result < Infinity ? result : result === 0 ? '-' : 'Error'}
                 </Text>
                 <Button
