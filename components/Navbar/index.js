@@ -6,7 +6,7 @@ export default function Navbar() {
     <Flex>
       <Box p="2">
         <Stack direction="row" maxW="md">
-          <Link href="" title="Home">
+          <Link href={process.env.siteUrl} title="Main Website">
             <Image
               boxSize="200px"
               maxHeight="50px"
@@ -21,7 +21,7 @@ export default function Navbar() {
       <Box p="2">
         <Box p="1" />
         <Box p="1">
-          <Link href="" title="Close">
+          <Link href="/" title="Reset">
             <CloseIcon color="blue.50" _hover={{ color: 'blue.600' }} />
           </Link>
         </Box>
