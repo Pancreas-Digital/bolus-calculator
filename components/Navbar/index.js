@@ -3,7 +3,10 @@ import { CloseIcon } from '@chakra-ui/icons';
 
 export default function Navbar() {
   return (
-    <Flex>
+    <Flex
+      bg="blue.300"
+      sx={{ position: '-webkit-sticky', /* Safari */ position: 'sticky', top: '0', 'z-index': '1000' }}
+    >
       <Box p="2">
         <Stack direction="row" maxW="md">
           <Link href={process.env.siteUrl} title="Main Website">
