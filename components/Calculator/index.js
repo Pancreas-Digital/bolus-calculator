@@ -193,27 +193,27 @@ export default function Calculator() {
           >
             Calcular
           </Button>
-          <Box
-            ref={resultRef}
-            height={result === null ? '1px' : '100vh'}
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-          >
-            {result != null && (
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <Box flex="1" display="flex" flexDirection="column" marginTop="24px" alignItems="center">
-                  <Text fontSize="3xl" textAlign="center" fontWeight="bold" color="blue.600">
-                    {result > 0 && result < Infinity
-                      ? 'Unidades de insulina recomendadas'
-                      : result === 0
-                      ? 'No se recomienda colocar insulina'
-                      : 'Verifique los datos ingresados'}
-                  </Text>
-                  <Text flex="1" fontSize="5xl" display="flex" alignItems="center" fontWeight="bold" color="red.600">
-                    {result > 0 && result < Infinity ? result : result === 0 ? '-' : 'Error'}
-                  </Text>
-                </Box>
+        </Stack>
+        <Box
+          ref={resultRef}
+          height={result === null ? '1px' : '100vh'}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          {result != null && (
+            <Box display="flex" flexDirection="column" alignItems="center" bg="white" padding="10">
+              <Stack spacing="60px">
+                <Text fontSize="3xl" textAlign="center" fontWeight="bold" color="blue.600">
+                  {result > 0 && result < Infinity
+                    ? 'Unidades de insulina recomendadas'
+                    : result === 0
+                    ? 'No se recomienda colocar insulina'
+                    : 'Verifique los datos ingresados'}
+                </Text>
+                <Text fontSize="5xl" textAlign="center" fontWeight="bold" color="red.600" marginBottom="60px">
+                  {result > 0 && result < Infinity ? result : result === 0 ? '-' : 'Error'}
+                </Text>
                 <Button
                   size="md"
                   height="48px"
@@ -228,10 +228,10 @@ export default function Calculator() {
                 >
                   Volver a calcular
                 </Button>
-              </Box>
-            )}
-          </Box>
-        </Stack>
+              </Stack>
+            </Box>
+          )}
+        </Box>
       </form>
     </Container>
   );
