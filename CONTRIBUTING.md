@@ -1,4 +1,4 @@
-# Reporting Issues with xDrip
+# Reporting Issues
 
 Just use github issues. Verify the issue not exist first.
 
@@ -7,7 +7,7 @@ Just use github issues. Verify the issue not exist first.
 - If it is a bug, please try to explain how to reproduce it, roughly which settings you are using, what you are seeing or not seeing. Screenshots welcomed.
 - If it relates to a new feature, please explain the rationale for the feature, use cases and detail your suggestion.
 
-# Contributing patches to xDrip
+# Contributing patches
 
 ### Do you have an idea for a feature or enhancement or bugfix?
 
