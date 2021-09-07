@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Calculator, Navbar } from '@components';
+import { Calculator, Navbar, ModalAccept } from '@components';
 import { ChakraProvider, Box } from '@chakra-ui/react';
 
 export default function Home() {
@@ -31,6 +31,7 @@ export default function Home() {
       </Head>
       <Box bg="blue.300" minHeight="100vh">
         <Navbar />
+        <ModalAccept />
         <Calculator />
       </Box>
     </ChakraProvider>
