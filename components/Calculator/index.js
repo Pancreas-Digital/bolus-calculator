@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
 import {
   Container,
   Box,
@@ -14,8 +15,25 @@ import {
   Text,
   Stack,
 } from '@chakra-ui/react';
+import calculatorContent from './locale';
 
 export default function Calculator() {
+  const { locale } = useRouter();
+  const {
+    minimum: { label: sliderLabel, helperText: sliderText },
+    glycemia: { label: glycemiaLabel, helperText: glycemiaText },
+    ratio: { label: ratioLabel, helperText: ratioText },
+    correction: { label: correctionLabel, helperText: correctionText },
+    objective: { label: objectiveLabel, helperText: objectiveText },
+    carbohydrates: { label: carbohydratesLabel, helperText: carbohydratesText },
+    calculateButtonText,
+    result: {
+      recommendedText,
+      notRecommendedText,
+      errorText,
+      recalculateButtonText,
+    },
+  } = calculatorContent[locale];
   const [form, setForm] = useState({
     minimum: 0.5,
     glycaemia: '',
@@ -56,9 +74,14 @@ export default function Calculator() {
     event.preventDefault();
 
     //food + correction
-    let res = form.carbohydrates / form.ratio + (form.glycaemia - form.objective) / form.correction;
+    let res =
+      form.carbohydrates / form.ratio +
+      (form.glycaemia - form.objective) / form.correction;
     //Round to minimum and then round for a fix for some strange cases
-    res = Math.round((Math.round(res / form.minimum) * form.minimum + Number.EPSILON) * 100) / 100;
+    res =
+      Math.round(
+        (Math.round(res / form.minimum) * form.minimum + Number.EPSILON) * 100
+      ) / 100;
 
     setResult(res);
 
@@ -86,17 +109,21 @@ export default function Calculator() {
   };
 
   return (
-    <Container maxW="container.md" padding="4" bg="blue.50">
+    <Container maxW='container.md' padding='4' bg='blue.50'>
       <form onSubmit={handleSubmit}>
         <Stack spacing={2}>
-          <FormControl id="minimum" isRequired size="sm">
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-              <FormLabel>Unidad mínima</FormLabel>
-              <Text fontSize="xl" color="blue.600" fontWeight="bold">
+          <FormControl id='minimum' isRequired size='sm'>
+            <Box
+              display='flex'
+              justifyContent='space-between'
+              alignItems='center'
+            >
+              <FormLabel>{sliderLabel}</FormLabel>
+              <Text fontSize='xl' color='blue.600' fontWeight='bold'>
                 {form.minimum}
               </Text>
             </Box>
-            <FormHelperText>La mínima cantidad de insulina que se puede administrar.</FormHelperText>
+            <FormHelperText>{sliderText}</FormHelperText>
             <Slider
               value={form.minimum}
               defaultValue={0.5}
@@ -106,7 +133,7 @@ export default function Calculator() {
               onChange={handleSlider}
               onChangeStart={() => setShowSliderValue(true)}
               onChangeEnd={() => setShowSliderValue(false)}
-              id="calculator-slider-1"
+              id='calculator-slider-1'
             >
               <SliderTrack>
                 <SliderFilledTrack />
@@ -114,13 +141,13 @@ export default function Calculator() {
               <SliderThumb>
                 {showSliderValue && (
                   <Box
-                    position="absolute"
-                    bottom="-40px"
-                    bg="blue.300"
-                    color="white"
-                    borderRadius="4px"
-                    padding="4px"
-                    fontSize="14px"
+                    position='absolute'
+                    bottom='-40px'
+                    bg='blue.300'
+                    color='white'
+                    borderRadius='4px'
+                    padding='4px'
+                    fontSize='14px'
                   >
                     {form.minimum}
                   </Box>
@@ -128,106 +155,127 @@ export default function Calculator() {
               </SliderThumb>
             </Slider>
           </FormControl>
-          <FormControl id="glycaemia" isRequired size="sm">
-            <FormLabel>Glucemia</FormLabel>
-            <FormHelperText>El valor de glucosa en sangre actual.</FormHelperText>
+          <FormControl id='glycaemia' isRequired size='sm'>
+            <FormLabel>{glycemiaLabel}</FormLabel>
+            <FormHelperText>{glycemiaText}</FormHelperText>
             <Input
               onChange={handleChange}
-              type="number"
-              min="0"
+              type='number'
+              min='0'
               value={form.glycaemia === 0 ? '' : form.glycaemia}
-              name="glycaemia"
+              name='glycaemia'
             />
           </FormControl>
-          <FormControl id="ratio" isRequired size="sm">
-            <FormLabel>Ratio de carbohidratos / insulina</FormLabel>
-            <FormHelperText>La cantidad de carbohidratos para una unidad de insulina.</FormHelperText>
+          <FormControl id='ratio' isRequired size='sm'>
+            <FormLabel>{ratioLabel}</FormLabel>
+            <FormHelperText>{ratioText}</FormHelperText>
             <Input
               onChange={handleChange}
-              type="number"
-              min="0"
+              type='number'
+              min='0'
               value={form.ratio === 0 ? '' : form.ratio}
-              name="ratio"
+              name='ratio'
             />
           </FormControl>
-          <FormControl id="correction" isRequired size="sm">
-            <FormLabel>Factor de corrección</FormLabel>
-            <FormHelperText>La cantidad de glucemia que reduce una unidad de insulina.</FormHelperText>
+          <FormControl id='correction' isRequired size='sm'>
+            <FormLabel>{correctionLabel}</FormLabel>
+            <FormHelperText>{correctionText}</FormHelperText>
             <Input
               onChange={handleChange}
-              type="number"
-              min="0"
+              type='number'
+              min='0'
               value={form.correction === 0 ? '' : form.correction}
-              name="correction"
+              name='correction'
             />
           </FormControl>
-          <FormControl id="objective" isRequired size="sm">
-            <FormLabel>Objetivo de glucemia</FormLabel>
-            <FormHelperText>El valor ideal de glucemia.</FormHelperText>
+          <FormControl id='objective' isRequired size='sm'>
+            <FormLabel>{objectiveLabel}</FormLabel>
+            <FormHelperText>{objectiveText}</FormHelperText>
             <Input
               onChange={handleChange}
-              type="number"
-              min="0"
+              type='number'
+              min='0'
               value={form.objective === 0 ? '' : form.objective}
-              name="objective"
+              name='objective'
             />
           </FormControl>
-          <FormControl id="carbohydrates" isRequired size="sm">
-            <FormLabel>Carbohidratos</FormLabel>
-            <FormHelperText>La cantidad de carbohidratos que va a consumir.</FormHelperText>
+          <FormControl id='carbohydrates' isRequired size='sm'>
+            <FormLabel>{carbohydratesLabel}</FormLabel>
+            <FormHelperText>{carbohydratesText}</FormHelperText>
             <Input
               onChange={handleChange}
-              type="number"
-              min="0"
+              type='number'
+              min='0'
               value={form.carbohydrates === 0 ? '' : form.carbohydrates}
-              name="carbohydrates"
+              name='carbohydrates'
             />
           </FormControl>
           <Button
-            size="md"
-            height="48px"
-            width="200px"
-            border="2px"
-            colorScheme="blue"
-            type="submit"
+            size='md'
+            height='48px'
+            width='200px'
+            border='2px'
+            colorScheme='blue'
+            type='submit'
             style={{ margin: '24px auto' }}
           >
-            Calcular
+            {calculateButtonText}
           </Button>
         </Stack>
         <Box
           ref={resultRef}
           height={result === null ? '1px' : '100vh'}
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+          display='flex'
+          justifyContent='center'
+          alignItems='center'
         >
           {result != null && (
-            <Box display="flex" flexDirection="column" alignItems="center" bg="white" padding="10">
-              <Stack spacing="60px">
-                <Text fontSize="3xl" textAlign="center" fontWeight="bold" color="blue.600">
+            <Box
+              display='flex'
+              flexDirection='column'
+              alignItems='center'
+              bg='white'
+              padding='10'
+            >
+              <Stack spacing='60px'>
+                <Text
+                  fontSize='3xl'
+                  textAlign='center'
+                  fontWeight='bold'
+                  color='blue.600'
+                >
                   {result > 0 && result < Infinity
-                    ? 'Unidades de insulina recomendadas'
+                    ? recommendedText
                     : result === 0
-                    ? 'No se recomienda colocar insulina'
-                    : 'Verifique los datos ingresados'}
+                    ? notRecommendedText
+                    : errorText}
                 </Text>
-                <Text fontSize="5xl" textAlign="center" fontWeight="bold" color="red.700" marginBottom="60px">
-                  {result > 0 && result < Infinity ? result : result === 0 ? '-' : 'Error'}
+                <Text
+                  fontSize='5xl'
+                  textAlign='center'
+                  fontWeight='bold'
+                  color='red.700'
+                  marginBottom='60px'
+                >
+                  {result > 0 && result < Infinity
+                    ? result
+                    : result === 0
+                    ? '-'
+                    : 'Error'}
                 </Text>
                 <Button
-                  size="md"
-                  height="48px"
-                  width="200px"
-                  border="2px"
-                  colorScheme="blue"
+                  size='md'
+                  height='48px'
+                  width='200px'
+                  border='2px'
+                  colorScheme='blue'
                   style={{ margin: '24px auto' }}
                   onClick={() => {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     setResult(null);
                   }}
                 >
-                  Volver a calcular
+                  {recalculateButtonText}
                 </Button>
               </Stack>
             </Box>
