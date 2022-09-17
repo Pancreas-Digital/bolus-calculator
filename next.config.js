@@ -14,7 +14,7 @@ module.exports = (phase) => {
     reactStrictMode: true,
     i18n: {
       locales: ['es-AR', 'en-US'],
-      localeDetection: false,
+      localeDetection: true,
       defaultLocale: 'es-AR',
     },
   };

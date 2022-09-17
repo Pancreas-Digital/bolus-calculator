@@ -15,7 +15,7 @@ import {
   Text,
   Stack,
 } from '@chakra-ui/react';
-import calculatorContent from './locale';
+import localeContent from './locale';
 
 export default function Calculator() {
   const { locale } = useRouter();
@@ -33,7 +33,7 @@ export default function Calculator() {
       errorText,
       recalculateButtonText,
     },
-  } = calculatorContent[locale];
+  } = localeContent[locale];
   const [form, setForm] = useState({
     minimum: 0.5,
     glycaemia: '',
