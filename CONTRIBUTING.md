@@ -15,7 +15,7 @@ Patches are welcomed! Following the roadmap is much appreciated.
 
 # Translations
 
-Translations are very welcomed. But first we need to implement i18n.
+Translations are very welcomed. We already implemented i18n which is [supported out-of-the-box by NextJS](https://nextjs.org/docs/advanced-features/i18n-routing) (thanks @sedusa). We added support to es-AR (default locale) and en-US.
 
 ---
 

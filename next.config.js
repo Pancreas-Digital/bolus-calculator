@@ -9,7 +9,7 @@ module.exports = (phase) => {
       siteName: 'Pancreas Digital',
       twitterCard: 'summary_large_image',
       twitterImageAlt: 'Pancreas Digital Logo',
-      twitterSite: '@fedemotta_',
+      twitterSite: '@PancreasDigital',
     },
     reactStrictMode: true,
     i18n: {

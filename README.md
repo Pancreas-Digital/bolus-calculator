@@ -37,5 +37,6 @@ To run locally just:
 ## Thanks
 
 - julianprieto-dev (Developer)
+- sedusa (Developer)
 - Betina (QA)
 - Daniela (QA)
