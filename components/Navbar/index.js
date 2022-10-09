@@ -1,5 +1,5 @@
-import { Flex, Box, Spacer, Stack, Image, Link } from '@chakra-ui/react';
-import { CloseIcon } from '@chakra-ui/icons';
+import { Flex, Box, Spacer, Stack, Image, Link, Select } from '@chakra-ui/react';
+import "/node_modules/flag-icons/css/flag-icons.min.css";
 
 export default function Navbar() {
   return (
@@ -24,8 +24,12 @@ export default function Navbar() {
       <Box p="2">
         <Box p="1" />
         <Box p="1">
-          <Link href="/" title="Reset">
-            <CloseIcon color="blue.50" _hover={{ color: 'blue.600' }} />
+          <Link href="/es-AR" title="AR">
+            <span class="fi fi-ar"></span>
+          </Link> 
+          &nbsp;|&nbsp;
+          <Link href="/en-US" title="US">
+            <span class="fi fi-us"></span>
           </Link>
         </Box>
       </Box>
