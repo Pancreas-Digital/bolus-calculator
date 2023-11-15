@@ -2,7 +2,7 @@ const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 module.exports = (phase) => {
   return {
     env: {
-      siteUrl: phase === PHASE_DEVELOPMENT_SERVER ? 'http://localhost:3000' : 'https://pancreas.digital',
+      siteUrl: phase === PHASE_DEVELOPMENT_SERVER ? 'http://localhost:3000' : 'https://calculadora.pancreas.digital',
       siteTitle: 'Pancreas Digital - Calculadora de bolos',
       siteDescription: 'Calculadora de bolos de insulina para el control de la diabetes.',
       siteLogo: 'Vertical.jpg',
